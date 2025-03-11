@@ -1,0 +1,28 @@
+FROM leads l
+JOIN courses c ON l.course_id = c.id
+GROUP BY week_start, c.type
+ORDER BY week_start DESC, leads_count DESC;
+
+SQL Query 2
+
+SELECT d.country_name
+    , COUNT(l.id) AS won_flex_leads
+FROM leads l
+JOIN courses c ON l.course_id = c.id
+JOIN users u ON l.user_id = u.id
+JOIN domains d ON u.domain_id = d.id
+WHERE l.status = 'WON'
+  AND c.type = 'FLEX'
+  AND l.created_at >= '2024-01-01'
+GROUP BY d.country_name
+ORDER BY won_flex_leads DESC;
+
+SQL Query 3
+
+SELECT u.email, l.id, l.lost_reason
+FROM leads l
+JOIN courses c ON l.course_id = c.id
+JOIN users u ON l.user_id = u.id
+WHERE l.status = 'LOST'
+  AND c.type = 'FLEX'
+  AND l.created_at >= '2024-07-01';
